@@ -1,0 +1,23 @@
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - ${DATA_FOLDER}/caddy_config:/config
+      - ${DATA_FOLDER}/caddy_config/Caddyfile:/etc/caddy/Caddyfile
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:main
+    restart: always
+    volumes:
+      - open-webui:/app/backend/data
+      
+volumes:
+  caddy_data:
+    external: true
+  open-webui:
+    external: true
